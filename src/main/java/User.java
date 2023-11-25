@@ -8,11 +8,7 @@ public class User {
     }
 
     public boolean equals(User user) {
-        boolean flag = true;
-        if (!(this.firstName.equals(user.firstName) && this.lastName.equals(user.lastName))) {
-            flag = false;
-        }
-        return flag;
+        return (this.firstName.equals(user.firstName) && this.lastName.equals(user.lastName));
     }
 }
 

@@ -26,16 +26,12 @@ public class InMemoryCommentRepository implements CommentRepository {
     return new CommentId(nextId.incrementAndGet());
   }
 
-  @Override
-  public List<Comment> findAll() {
-    return new ArrayList<>(commentsMap.values());
-  }
 
   @Override
   public Comment findById(CommentId commentId) {
     Comment comment = commentsMap.get(commentId);
     if (comment == null) {
-      throw new CommentNotFoundException("Cannot find book by id=" + commentId);
+      throw new CommentNotFoundException("Cannot find comment by id=" + commentId);
     }
     return comment;
   }
@@ -49,17 +45,9 @@ public class InMemoryCommentRepository implements CommentRepository {
   }
 
   @Override
-  public synchronized void update(Comment comment) {
-    if (commentsMap.get(comment.getId()) == null) {
-      throw new CommentNotFoundException("Cannot find book by id=" + comment.getId());
-    }
-    commentsMap.put(comment.getId(), comment);
-  }
-
-  @Override
   public void delete(CommentId commentId) {
     if (commentsMap.remove(commentId) == null) {
-      throw new CommentNotFoundException("Cannot find book by id=" + commentId);
+      throw new CommentNotFoundException("Cannot find comment by id=" + commentId);
     }
   }
 }

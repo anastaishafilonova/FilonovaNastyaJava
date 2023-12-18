@@ -43,7 +43,7 @@ public class ArticleService {
     return articleId;
   }
 
-  public ArticleId update(ArticleId articleId, String name, Set<String> tags, List<Comment> comments) {
+  public void update(ArticleId articleId, String name, Set<String> tags, List<Comment> comments) {
     Article article;
     try {
       article = articleRepository.findById(articleId);
@@ -60,7 +60,6 @@ public class ArticleService {
     } catch (ArticleNotFoundException e) {
       throw new ArticleUpdateException("Cannot update article with id=" + articleId, e);
     }
-    return articleId;
   }
 
   public void delete(ArticleId articleId) {

@@ -4,6 +4,7 @@ import org.example.repositories.InMemoryArticleRepository;
 import org.example.repositories.InMemoryCommentRepository;
 import org.example.services.ArticleService;
 import org.example.services.CommentService;
+import org.example.services.exceptions.CommentDeleteException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -32,5 +33,10 @@ public class CommentServiceTest {
   void deleteTest() {
     commentService.delete(commentId);
     Assertions.assertTrue(inMemoryCommentRepository.getCommentsMapSize() == 0);
+  }
+
+  @Test
+  void shouldThrowCommentDeleteException() {
+    Assertions.assertThrows(CommentDeleteException.class, () -> commentService.delete(new CommentId(3)));
   }
 }

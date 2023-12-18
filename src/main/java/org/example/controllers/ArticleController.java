@@ -84,14 +84,14 @@ public class ArticleController implements Controller {
         (Request request, Response response) -> {
           response.type("/application/json");
           String body = request.body();
-          ArticleGetRequest articleGetRequest = objectMapper.readValue(body,
-              ArticleGetRequest.class);
+          ArticleId articleId = new ArticleId(Long.parseLong(request.params("articleId")));
           try {
-            Article articleWithId = articleService.findById(articleGetRequest.articleId());
+            Article articleWithId = articleService.findById(articleId);
             response.status(201);
-            return objectMapper.writeValueAsString(new ArticleGetResponse(articleWithId));
+            return objectMapper.writeValueAsString(new ArticleGetResponse(articleWithId.getName(), articleWithId.getTags(),
+                articleWithId.getComments()));
           } catch (ArticleNotFoundException e) {
-            LOG.warn("Cannot found article with id " + articleGetRequest.articleId(), e);
+            LOG.warn("Cannot found article with id " + articleId, e);
             response.status(400);
             return objectMapper.writeValueAsString(new ErrorResponse(e.getMessage()));
           }
@@ -108,9 +108,9 @@ public class ArticleController implements Controller {
           ArticlePutRequest articlePutRequest = objectMapper.readValue(body,
               ArticlePutRequest.class);
           try {
-            ArticleId articleId = articleService.update(articlePutRequest.articleId(), articlePutRequest.name(), articlePutRequest.tags(), articlePutRequest.comments());
+            articleService.update(articlePutRequest.articleId(), articlePutRequest.name(), articlePutRequest.tags(), articlePutRequest.comments());
             response.status(201);
-            return objectMapper.writeValueAsString(new ArticlePutResponse(articleId));
+            return objectMapper.writeValueAsString(new ArticlePutResponse());
           } catch (ArticleNotFoundException e) {
             LOG.warn("Cannot update article with id " + articlePutRequest.articleId(), e);
             response.status(400);

@@ -33,6 +33,15 @@ public class ArticleServiceTest {
   }
 
   @Test
+  void findByIdTest() {
+    Article article = articleService.findById(articleId);
+    Assertions.assertEquals(articleId, article.getId());
+    Assertions.assertEquals(name, article.getName());
+    Assertions.assertEquals(tags, article.getTags());
+    Assertions.assertEquals(comments, article.getComments());
+  }
+
+  @Test
   void updateTest() {
     comments.add(comment);
     articleService.update(articleId, name, tags, comments);
@@ -52,7 +61,7 @@ public class ArticleServiceTest {
   @Test
   void deleteTest() {
     articleService.delete(articleId);
-    Assertions.assertTrue(inMemoryArticleRepository.getArticlesMapSize() == 0);
+    assertEquals(0, inMemoryArticleRepository.getArticlesMapSize());
   }
 
   @Test

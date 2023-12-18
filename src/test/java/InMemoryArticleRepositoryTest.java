@@ -4,6 +4,8 @@ import org.example.entities.Comment;
 import org.example.entities.CommentId;
 import org.example.repositories.ArticleRepository;
 import org.example.repositories.InMemoryArticleRepository;
+import org.example.repositories.exceptions.ArticleIdDuplicatedException;
+import org.example.repositories.exceptions.ArticleNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -77,5 +79,28 @@ public class InMemoryArticleRepositoryTest {
     articleRepository.create(new Article(articleId, name, tags, comments));
     articleRepository.delete(articleId);
     assertEquals(0, articleRepository.getArticlesMapSize());
+  }
+
+  @Test
+  void ArticleNotFoundException() {
+    boolean exceptionThrown = false;
+    try {
+      Article article = articleRepository.findById(new ArticleId(10));
+    } catch (ArticleNotFoundException e) {
+      exceptionThrown = true;
+    }
+    Assertions.assertTrue(exceptionThrown);
+  }
+
+  @Test
+  void ArticleIdDuplicatedExceptionTest() {
+    boolean exceptionThrown = false;
+    articleRepository.create(new Article(articleId, name, tags, comments));
+    try {
+      articleRepository.create(new Article(articleId, name, tags, comments));
+    } catch (ArticleIdDuplicatedException e) {
+      exceptionThrown = true;
+    }
+    Assertions.assertTrue(exceptionThrown);
   }
 }

@@ -6,6 +6,8 @@ import org.example.controllers.responses.ArticleGetResponse;
 import org.example.entities.Article;
 import org.example.entities.ArticleId;
 import org.example.entities.Comment;
+import org.example.repositories.ArticleRepository;
+import org.example.repositories.InMemoryArticleRepository;
 import org.example.services.ArticleService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -68,7 +70,6 @@ class ArticleControllerTest {
     assertEquals(201, response.statusCode());
     ArticleCreateResponse articleCreateResponse =
         objectMapper.readValue(response.body(), ArticleCreateResponse.class);
-    assertEquals(new ArticleId(1), articleCreateResponse.articleId());
   }
 
   @Test

@@ -18,9 +18,7 @@ public class Main {
   public static void main(String[] args) {
     Service service = Service.ignite();
     ObjectMapper objectMapper = new ObjectMapper();
-    final var articleService = new ArticleService(
-        new InMemoryArticleRepository()
-    );
+    final var articleService = new ArticleService(new InMemoryArticleRepository());
     final var commentService = new CommentService(
       new InMemoryCommentRepository(),
         articleService
